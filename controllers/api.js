@@ -36,11 +36,13 @@ exports.getApi = (req, res) => {
 exports.blogApi = (req, res) => {
     res.json({
         code: 200, message: "test thử thôi", data: [{
+            id: 1,
             title: "asdasd",
             body: "asdasdasdasd",
             tags: "asdasd"
         },
             {
+                id: 2,
                 title: "asdasd22",
                 body: "asdasdasdasd22",
                 tags: "asdasd222"
