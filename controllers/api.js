@@ -36,32 +36,17 @@ exports.getApi = (req, res) => {
 
 /**
  * Blog API
- * @param req
- * @param res
  */
 
-exports.blogApi = (req, res) => {
-    res.json({
-        code: 200, message: "test thử thôi", data: [{
-            id: 1,
-            title: "asdasd",
-            body: "asdasdasdasd",
-            tags: "asdasd",
-            date: new Date(),
-            author: "Minh",
-            image: "asdasd.jpg"
-        },
-            {
-                id: 2,
-                title: "asdasd22",
-                body: "asdasdasdasd22",
-                tags: "asdasd222",
-                date: new Date(),
-                author: "Minh",
-                image: "asdasd.jpg"
-            }
-        ]
-    })
+exports.blogApi = (req, res, next) => {
+    Blog.getBlogs(function (err, blogs) {
+        if (err) {
+            return next(err)
+        }
+        res.json({
+            code: 200, message: "ok", data: blogs
+        })
+    }, 10);
 };
 
 exports.addBlog = (req, res, next) => {
