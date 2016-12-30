@@ -84,7 +84,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
+    if (req.path === '/api/upload' || req.path === '/api/addBlog') {
     next();
   } else {
     lusca.csrf()(req, res, next);
@@ -166,6 +166,7 @@ app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAutho
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
 app.get('/api/blog', apiController.blogApi);
+app.post('/api/addBlog', apiController.addBlog);
 
 /**
  * OAuth authentication routes. (Sign in)

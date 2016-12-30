@@ -22,6 +22,7 @@ const foursquare = require('node-foursquare')({
         redirectUrl: process.env.FOURSQUARE_REDIRECT_URL
     }
 });
+const Blog = require('../models/Blog');
 
 /**
  * GET /api
@@ -32,6 +33,12 @@ exports.getApi = (req, res) => {
         title: 'API Examples'
     });
 };
+
+/**
+ * Blog API
+ * @param req
+ * @param res
+ */
 
 exports.blogApi = (req, res) => {
     res.json({
@@ -54,6 +61,23 @@ exports.blogApi = (req, res) => {
                 image: "asdasd.jpg"
             }
         ]
+    })
+};
+
+exports.addBlog = (req, res, next) => {
+    const blog = new Blog({
+        title: req.body.title,
+        body: req.body.body
+    });
+    blog.save(err => {
+        if (err) {
+            return next(err)
+        }
+        res.json({
+            code: 200,
+            message: "new blog added succesfully",
+            data: blog
+        })
     })
 };
 
