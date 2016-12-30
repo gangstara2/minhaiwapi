@@ -67,7 +67,11 @@ exports.blogApi = (req, res) => {
 exports.addBlog = (req, res, next) => {
     const blog = new Blog({
         title: req.body.title,
-        body: req.body.body
+        body: req.body.body,
+        tags: req.body.tags,
+        date: req.body.date ? req.body.date : new Date(),
+        author: req.body.author,
+        image: req.body.image ? req.body.image : 'noimage.jpg'
     });
     blog.save(err => {
         if (err) {
