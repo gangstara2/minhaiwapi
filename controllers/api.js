@@ -39,13 +39,19 @@ exports.blogApi = (req, res) => {
             id: 1,
             title: "asdasd",
             body: "asdasdasdasd",
-            tags: "asdasd"
+            tags: "asdasd",
+            date: new Date(),
+            author: "Minh",
+            image: "asdasd.jpg"
         },
             {
                 id: 2,
                 title: "asdasd22",
                 body: "asdasdasdasd22",
-                tags: "asdasd222"
+                tags: "asdasd222",
+                date: new Date(),
+                author: "Minh",
+                image: "asdasd.jpg"
             }
         ]
     })
