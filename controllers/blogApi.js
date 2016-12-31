@@ -157,3 +157,10 @@ exports.editBlog = (req, res) => {
     });
 
 };
+
+exports.deleteBlog = (req, res) => {
+    Blog.remove({_id: req.params.id}, err => {
+        if (err) res.json({code: 400, message: "error", data: err})
+        else res.json({code: 200, message: "deleted post with id" + req.params.id})
+    })
+};
