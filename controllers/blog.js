@@ -32,7 +32,7 @@ exports.postAddBlog = (req, res) => {
     if (req.file) {
         mainImageName = req.file.filename
     } else {
-        mainImageName = 'noimage.png';
+        mainImageName = 'noimage.jpg';
     }
 
     //form validation

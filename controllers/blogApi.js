@@ -31,7 +31,7 @@ exports.addBlog = (req, res) => {
     if (req.file) {
         mainImageName = req.file.filename
     } else {
-        mainImageName = 'noimage.png';
+        mainImageName = 'noimage.jpg';
     }
 
     //form validation
@@ -182,6 +182,6 @@ exports.editBlog = (req, res) => {
 exports.deleteBlog = (req, res) => {
     Blog.remove({_id: req.params.id}, err => {
         if (err) res.json({code: 400, message: "error", data: err})
-        else res.json({code: 200, message: "deleted post with id" + req.params.id})
+        else res.json({code: 200, message: "deleted post with id " + req.params.id})
     })
 };
