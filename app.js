@@ -83,13 +83,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-    if (req.path === '/api/upload' || req.path === '/api/addBlog') {
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
+// app.use((req, res, next) => {
+//     if (req.path === '/api/upload' || req.path === '/api/addBlog') {
+//     next();
+//   } else {
+//     lusca.csrf()(req, res, next);
+//   }
+// });
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.use((req, res, next) => {
@@ -168,6 +168,7 @@ app.get('/api/google-maps', apiController.getGoogleMaps);
 app.get('/api/blog', apiController.blogApi);
 app.post('/api/addBlog', apiController.addBlog);
 app.get('/api/blog/:id', apiController.getBlogById);
+app.post('/api/blog/:id/addComment', apiController.addCommentToBlog);
 
 /**
  * OAuth authentication routes. (Sign in)

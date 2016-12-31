@@ -7,7 +7,13 @@ const blogSchema = new mongoose.Schema({
     category: String,
     date: {type: Date, default: Date.now},
     author: String,
-    image: String
+    image: String,
+    comments: [{
+        name: {type: String},
+        email: {type: String},
+        body: {type: String},
+        commentDate: {type: Date, default: Date.now}
+    }]
 });
 
 const Blog = mongoose.model('Blog', blogSchema);
