@@ -25,7 +25,7 @@ exports.addBlog = (req, res) => {
         title: req.body.title,
         body: req.body.body,
         tags: req.body.tags,
-        category: req.body.category,
+        category: req.body.category ? req.body.category : 'uncategorized',
         date: req.body.date ? req.body.date : new Date(),
         author: req.body.author,
         image: req.body.image ? req.body.image : 'noimage.jpg'
@@ -36,7 +36,7 @@ exports.addBlog = (req, res) => {
         } else {
             res.json({
                 code: 200,
-                message: "new blog added succesfully",
+                message: "new blog added successfully",
                 data: blog
             })
         }
