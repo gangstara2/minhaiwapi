@@ -17,7 +17,7 @@ exports.blogApi = (req, res) => {
                 code: 200, message: "ok", data: blogs
             })
         }
-    }, 10);
+    });
 };
 
 exports.addBlog = (req, res) => {
