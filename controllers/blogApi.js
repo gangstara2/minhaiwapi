@@ -97,7 +97,7 @@ exports.addBlogCategory = (req, res) => {
 //Get form value
     const title = req.body.title;
     //form validation
-    req.checkBody('title', 'Title field is required').notEmpty()
+    req.checkBody('title', 'Title field is required').notEmpty();
 
     const errors = req.validationErrors();
     if (errors) {
@@ -108,13 +108,12 @@ exports.addBlogCategory = (req, res) => {
         });
     } else {
         //submit to db
-        Category.insert({
-            "title": title
-        }, (err, category) => {
+        const newCat = new Category({"title": title})
+        newCat.save(err => {
             if (err) {
                 res.json({code: 400, message: "error", data: err})
             } else {
-                res.json({code: 200, message: "success", data: category})
+                res.json({code: 200, message: "success", data: newCat})
             }
         })
     }
