@@ -173,10 +173,12 @@ app.get('/api/blog', blogApiController.blogApi);
 app.post('/api/addBlog', blogApiController.addBlog);
 app.get('/api/blog/:id', blogApiController.getBlogById);
 app.post('/api/blog/:id/addComment', blogApiController.addCommentToBlog);
-//TODO
 app.get('/api/showBlogCategories', blogApiController.getCategory);
 app.post('/api/addBlogCategory', blogApiController.addBlogCategory);
 app.get('/api/blogCategory/:category', blogApiController.getBlogByCategory);
+app.put('/api/blogput', (req, res) => {
+    res.json(req);
+});
 
 
 
