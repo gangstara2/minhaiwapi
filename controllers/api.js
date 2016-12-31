@@ -41,11 +41,13 @@ exports.getApi = (req, res) => {
 exports.blogApi = (req, res, next) => {
     Blog.getBlogs(function (err, blogs) {
         if (err) {
-            return next(err)
+            res.json({code: 400, message: "error", data: err})
         }
-        res.json({
-            code: 200, message: "ok", data: blogs
-        })
+        else {
+            res.json({
+                code: 200, message: "ok", data: blogs
+            })
+        }
     }, 10);
 };
 
@@ -54,21 +56,30 @@ exports.addBlog = (req, res, next) => {
         title: req.body.title,
         body: req.body.body,
         tags: req.body.tags,
+        category: req.body.category,
         date: req.body.date ? req.body.date : new Date(),
         author: req.body.author,
         image: req.body.image ? req.body.image : 'noimage.jpg'
     });
     blog.save(err => {
         if (err) {
-            return next(err)
+            res.json({code: 400, message: "error", data: err})
+        } else {
+            res.json({
+                code: 200,
+                message: "new blog added succesfully",
+                data: blog
+            })
         }
-        res.json({
-            code: 200,
-            message: "new blog added succesfully",
-            data: blog
-        })
     })
 };
+exports.getBlogById = (req, res) => {
+    Blog.findById(req.params.id, (err, post) => {
+        if (err) res.json({code: 400, message: "error", data: err});
+        else     res.json({code: 200, message: "success", data: post})
+    })
+};
+
 
 /**
  * GET /api/foursquare
