@@ -153,7 +153,7 @@ exports.editBlog = (req, res) => {
     console.log(object);
     Blog.update({_id: req.params.id}, object, (err, blog) => {
         if (err) res.json({code: 400, message: "error", data: err})
-        else res.json({code: 200, message: "success", data: blog})
+        else res.json({code: 200, message: "success", data: object})
     });
 
 };
