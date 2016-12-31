@@ -21,26 +21,49 @@ exports.blogApi = (req, res) => {
 };
 
 exports.addBlog = (req, res) => {
-    const blog = new Blog({
-        title: req.body.title,
-        body: req.body.body,
-        tags: req.body.tags,
-        category: req.body.category ? req.body.category : 'uncategorized',
-        date: req.body.date ? req.body.date : new Date(),
-        author: req.body.author,
-        image: req.body.image ? req.body.image : 'noimage.jpg'
-    });
-    blog.save(err => {
-        if (err) {
-            res.json({code: 400, message: "error", data: err})
-        } else {
-            res.json({
-                code: 200,
-                message: "new blog added successfully",
-                data: blog
-            })
-        }
-    })
+    const title = req.body.title;
+    const category = req.body.category
+    const body = req.body.body
+    const author = req.body.author;
+    const tags = req.body.tags;
+    const date = new Date();
+    let mainImageName = ''
+    if (req.file) {
+        console.log(req.file)
+        mainImageName = req.file.filename
+    } else {
+        console.log('error upload file')
+        mainImageName = 'noimage.png';
+    }
+
+    //form validation
+    req.checkBody('title', 'Title field is required').notEmpty();
+    req.checkBody('body', 'Body field is required').notEmpty();
+    const errors = req.validationErrors();
+    if (errors) {
+        res.json({code: 400, message: "error", data: err})
+    } else {
+        //submit to db
+        const newBlog = new Blog({
+            "title": title,
+            "body": body,
+            "category": category,
+            "date": date,
+            "tags": tags,
+            "author": author,
+            "image": mainImageName
+        });
+
+        newBlog.save(function (err, post) {
+            if (err) {
+                res.json({code: 400, message: "error", data: err})
+            } else {
+                res.json({
+                    code: 200, message: "ok", data: post
+                })
+            }
+        })
+    }
 };
 exports.getBlogById = (req, res) => {
     Blog.findById(req.params.id, (err, post) => {

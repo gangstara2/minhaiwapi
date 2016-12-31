@@ -19,6 +19,7 @@ const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
+const mime = require('mime')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -185,7 +186,7 @@ app.get('/api/google-maps', apiController.getGoogleMaps);
  */
 const blogApiController = require('./controllers/blogApi');
 app.get('/api/blog', blogApiController.blogApi);
-app.post('/api/addBlog', blogApiController.addBlog);
+app.post('/api/addBlog', upload.single('image'), blogApiController.addBlog);
 app.get('/api/blog/:id', blogApiController.getBlogById);
 app.post('/api/blog/:id/addComment', blogApiController.addCommentToBlog);
 app.get('/api/showBlogCategories', blogApiController.getCategory);

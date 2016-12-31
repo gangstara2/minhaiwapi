@@ -22,5 +22,51 @@ exports.getAddBlog = (req, res) => {
 };
 
 exports.postAddBlog = (req, res) => {
+    const title = req.body.title;
+    const category = req.body.category
+    const body = req.body.body
+    const author = req.body.author;
+    const tags = req.body.tags;
+    const date = new Date();
+    let mainImageName = ''
+    if (req.file) {
+        console.log(req.file)
+        mainImageName = req.file.filename
+    } else {
+        console.log('error upload file')
+        mainImageName = 'noimage.png';
+    }
 
+    //form validation
+    req.checkBody('title', 'Title field is required').notEmpty();
+    req.checkBody('body', 'Body field is required').notEmpty();
+    const errors = req.validationErrors();
+    if (errors) {
+        res.render('addpost', {
+            'errors': errors,
+            'title': title,
+            'body': body
+        });
+    } else {
+        //submit to db
+        const newBlog = new Blog({
+            "title": title,
+            "body": body,
+            "category": category,
+            "date": date,
+            "tags": tags,
+            "author": author,
+            "image": mainImageName
+        });
+
+        newBlog.save(function (err, post) {
+            if (err) {
+                res.send('There was an issue submitting the post')
+            } else {
+                req.flash('success', 'Post Submitted');
+                res.location('/');
+                res.redirect('/');
+            }
+        })
+    }
 };
