@@ -192,8 +192,8 @@ app.post('/api/blog/:id/addComment', blogApiController.addCommentToBlog);
 app.get('/api/showBlogCategories', blogApiController.getCategory);
 app.post('/api/addBlogCategory', blogApiController.addBlogCategory);
 app.get('/api/blogCategory/:category', blogApiController.getBlogByCategory);
-app.put('/api/blog/:id', blogApiController.editBlog);
-app.post('/api/blog/:id', blogApiController.editBlog);
+app.put('/api/blog/:id', upload.single('image'), blogApiController.editBlog);
+app.post('/api/blog/:id', upload.single('image'), blogApiController.editBlog);
 app.delete('/api/blog/:id', blogApiController.deleteBlog);
 
 const blogController = require('./controllers/blog');

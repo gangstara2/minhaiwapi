@@ -29,10 +29,8 @@ exports.addBlog = (req, res) => {
     const date = new Date();
     let mainImageName = ''
     if (req.file) {
-        console.log(req.file)
         mainImageName = req.file.filename
     } else {
-        console.log('error upload file')
         mainImageName = 'noimage.png';
     }
 
@@ -171,9 +169,9 @@ exports.editBlog = (req, res) => {
     if (tags) object.tags = tags;
     if (date) object.date = date;
     if (author) object.author = author;
-    if (image) object.image = image;
-
-    console.log(object);
+    if (req.file) {
+        object.image = req.file.filename
+    }
     Blog.update({_id: req.params.id}, object, (err, blog) => {
         if (err) res.json({code: 400, message: "error", data: err})
         else res.json({code: 200, message: "success", data: object})
