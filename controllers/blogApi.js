@@ -118,3 +118,16 @@ exports.addBlogCategory = (req, res) => {
         })
     }
 };
+
+exports.getCategory = (req, res) => {
+    Category.find({}, (err, categories) => {
+        if (err) res.json({code: 400, message: "error", data: err});
+        else res.json({code: 200, message: "success", data: categories})
+    })
+};
+exports.getBlogByCategory = (req, res) => {
+    Blog.find(req.params.category, (err, blogs) => {
+        if (err) res.json({code: 400, message: "error", data: err});
+        else res.json({code: 200, message: "success", data: blogs})
+    })
+};
