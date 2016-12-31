@@ -165,10 +165,20 @@ app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
-app.get('/api/blog', apiController.blogApi);
-app.post('/api/addBlog', apiController.addBlog);
-app.get('/api/blog/:id', apiController.getBlogById);
-app.post('/api/blog/:id/addComment', apiController.addCommentToBlog);
+/**
+ * Blog API
+ */
+const blogApiController = require('./controllers/blogApi');
+app.get('/api/blog', blogApiController.blogApi);
+app.post('/api/addBlog', blogApiController.addBlog);
+app.get('/api/blog/:id', blogApiController.getBlogById);
+app.post('/api/blog/:id/addComment', blogApiController.addCommentToBlog);
+//TODO
+// app.get('/api/blogCategory', blogApiController.getBlogCategory);
+app.post('/api/blogCategory', blogApiController.addBlogCategory);
+
+
+
 
 /**
  * OAuth authentication routes. (Sign in)
