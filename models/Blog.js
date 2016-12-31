@@ -4,10 +4,10 @@ const blogSchema = new mongoose.Schema({
     title: {type: String, unique: true},
     body: String,
     tags: String,
-    category: String,
+    category: {type: String, default: 'uncategorized'},
     date: {type: Date, default: Date.now},
-    author: String,
-    image: String,
+    author: {type: String, default: 'anonymous'},
+    image: {type: String, default: 'noimage.jpg'},
     comments: [{
         name: {type: String},
         email: {type: String},
