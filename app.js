@@ -20,7 +20,15 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + '.' + mime.extension(file.mimetype))
+    }
+})
+const upload = multer({storage: storage})
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
@@ -112,6 +120,13 @@ app.use((req, res, next) => {
 });
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
+
+app.locals.moment = require('moment');
+app.locals.truncateText = function (text, length) {
+    const regex = /(<([^>]+)>)/ig;
+    const truncatedText = text.substring(0, length).replace(regex, "");
+    return truncatedText
+}
 /**
  * Primary app routes.
  */
@@ -177,9 +192,16 @@ app.get('/api/showBlogCategories', blogApiController.getCategory);
 app.post('/api/addBlogCategory', blogApiController.addBlogCategory);
 app.get('/api/blogCategory/:category', blogApiController.getBlogByCategory);
 app.put('/api/blog/:id', blogApiController.editBlog);
+app.post('/api/blog/:id', blogApiController.editBlog);
 app.delete('/api/blog/:id', blogApiController.deleteBlog);
 
-
+const blogController = require('./controllers/blog');
+/**
+ * Blog client
+ */
+app.get('/blog', blogController.blog);
+app.get('/blog/add', blogController.getAddBlog);
+app.post('/blog/add', upload.single('image'), blogController.postAddBlog);
 
 /**
  * OAuth authentication routes. (Sign in)
