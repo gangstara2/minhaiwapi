@@ -201,8 +201,8 @@ const blogController = require('./controllers/blog');
  * Blog client
  */
 app.get('/blog', blogController.blog);
-app.get('/blog/add', blogController.getAddBlog);
-app.post('/blog/add', upload.single('image'), blogController.postAddBlog);
+app.get('/blog/add', passportConfig.isAuthenticated, blogController.getAddBlog);
+app.post('/blog/add', passportConfig.isAuthenticated, upload.single('image'), blogController.postAddBlog);
 
 /**
  * OAuth authentication routes. (Sign in)

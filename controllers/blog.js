@@ -23,17 +23,17 @@ exports.getAddBlog = (req, res) => {
 
 exports.postAddBlog = (req, res) => {
     const title = req.body.title;
-    const category = req.body.category
-    const body = req.body.body
+    const category = req.body.category;
+    const body = req.body.body;
     const author = req.body.author;
     const tags = req.body.tags;
     const date = new Date();
-    let mainImageName = ''
+    let mainImageName = '';
     if (req.file) {
-        console.log(req.file)
+        console.log(req.file);
         mainImageName = req.file.filename
     } else {
-        console.log('error upload file')
+        console.log('error upload file');
         mainImageName = 'noimage.png';
     }
 
@@ -63,9 +63,9 @@ exports.postAddBlog = (req, res) => {
             if (err) {
                 res.send('There was an issue submitting the post')
             } else {
-                req.flash('success', 'Post Submitted');
-                res.location('/');
-                res.redirect('/');
+                req.flash('success', {msg: 'Post submited!.'});
+                res.location('/blog');
+                res.redirect('/blog');
             }
         })
     }
