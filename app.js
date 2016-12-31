@@ -176,9 +176,7 @@ app.post('/api/blog/:id/addComment', blogApiController.addCommentToBlog);
 app.get('/api/showBlogCategories', blogApiController.getCategory);
 app.post('/api/addBlogCategory', blogApiController.addBlogCategory);
 app.get('/api/blogCategory/:category', blogApiController.getBlogByCategory);
-app.put('/api/blogput', (req, res) => {
-    res.json(req);
-});
+app.put('/api/blog/:id', blogApiController.editBlog);
 
 
 

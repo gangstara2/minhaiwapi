@@ -131,3 +131,29 @@ exports.getBlogByCategory = (req, res) => {
         else res.json({code: 200, message: "success", data: blogs})
     })
 };
+
+exports.editBlog = (req, res) => {
+    const title = req.body.title && req.body.title.trim();
+    const category = req.body.category && req.body.category.trim();
+    const body = req.body.body && req.body.body.trim();
+    const tags = req.body.tags && req.body.tags.trim();
+    const date = req.body.date && req.body.date.trim();
+    const author = req.body.author && req.body.author.trim();
+    const image = req.body.image && req.body.image.trim();
+
+    const object = {};
+    if (title) object.title = title;
+    if (category) object.category = category;
+    if (body) object.body = body;
+    if (tags) object.tags = tags;
+    if (date) object.date = date;
+    if (author) object.author = author;
+    if (image) object.image = image;
+
+    console.log(object);
+    Blog.update({_id: req.params.id}, object, (err, blog) => {
+        if (err) res.json({code: 400, message: "error", data: err})
+        else res.json({code: 200, message: "success", data: blog})
+    });
+
+};
