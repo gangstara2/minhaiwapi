@@ -30,10 +30,8 @@ exports.postAddBlog = (req, res) => {
     const date = new Date();
     let mainImageName = '';
     if (req.file) {
-        console.log(req.file);
         mainImageName = req.file.filename
     } else {
-        console.log('error upload file');
         mainImageName = 'noimage.png';
     }
 
