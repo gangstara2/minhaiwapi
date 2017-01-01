@@ -71,6 +71,9 @@ exports.postAddBlog = (req, res) => {
 
 exports.showBlog = (req, res) => {
     Blog.findById(req.params.id, function (err, post) {
+        if (err) {
+            res.json({error: err})
+        }
         res.render('blog/show', {
             'post': post
         })
