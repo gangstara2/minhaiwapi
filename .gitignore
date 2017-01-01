@@ -14,9 +14,9 @@ results
 tmp
 
 #Build
-public/css/main.css
-uploads/*
-public/uploads/*
+**/uploads
+!**/uploads/noimage.jpg
+!**/uploads/minhblog.png
 # API keys and secrets
 .env
 
