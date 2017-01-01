@@ -203,6 +203,11 @@ const blogController = require('./controllers/blog');
 app.get('/blog', blogController.blog);
 app.get('/blog/add', passportConfig.isAuthenticated, blogController.getAddBlog);
 app.post('/blog/add', passportConfig.isAuthenticated, upload.single('image'), blogController.postAddBlog);
+app.get('/blog/show/:id', blogController.showBlog);
+app.post('/blog/addcomment', blogController.addComment);
+app.get('/blog/addcategory', blogController.getAddCategory);
+app.post('/blog/addcategory', blogController.postAddCategory);
+app.get('/blog/categories/show/:category', blogController.showBlogByCategory);
 
 /**
  * OAuth authentication routes. (Sign in)

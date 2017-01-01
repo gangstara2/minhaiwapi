@@ -68,3 +68,99 @@ exports.postAddBlog = (req, res) => {
         })
     }
 };
+
+exports.showBlog = (req, res) => {
+    Blog.findById(req.params.id, function (err, post) {
+        res.render('blog/show', {
+            'post': post
+        })
+    })
+};
+
+
+exports.addComment = (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email
+    const body = req.body.body
+    const postid = req.body.postid;
+    const commentDate = new Date();
+
+    //form validation
+    req.checkBody('name', 'Name field is required').notEmpty();
+    req.checkBody('email', 'Email field is required').notEmpty();
+    req.checkBody('email', 'Email is not formatted correctly').isEmail();
+    req.checkBody('body', 'Body field is required').notEmpty();
+    const errors = req.validationErrors();
+
+
+    if (errors) {
+        Blog.findById(postid, function (err, post) {
+            res.render('show', {
+                'errors': errors,
+                'post': post
+            });
+        })
+    } else {
+        const comment = {
+            "name": name,
+            "email": email,
+            "body": body,
+            "commentdate": commentDate
+        }
+        Blog.update({
+            '_id': postid
+        }, {
+            $push: {
+                "comments": comment
+            }
+        }, function (err, doc) {
+            if (err) {
+                throw  err
+            } else {
+                req.flash('success', {msg: 'Comment Added'});
+                res.redirect('/blog/show/' + postid)
+            }
+        })
+    }
+};
+exports.getAddCategory = (req, res) => {
+    res.render('blog/addcategory', {
+        'title': 'Add category'
+    })
+};
+
+exports.postAddCategory = (req, res) => {
+    const title = req.body.title;
+    //form validation
+    req.checkBody('title', 'Title field is required').notEmpty()
+
+    const errors = req.validationErrors();
+    if (errors) {
+        res.render('blog/addcategory', {
+            'errors': errors,
+            'title': title
+        });
+    } else {
+        //submit to db
+        const newCat = new Category({
+            "title": title
+        });
+        newCat.save((err, category) => {
+            if (err) {
+                res.json({err: err})
+            } else {
+                req.flash('success', {msg: 'Category Submitted'});
+                res.location('/blog');
+                res.redirect('/blog');
+            }
+        })
+    }
+};
+
+exports.showBlogByCategory = (req, res) => {
+    Blog.find({category: req.params.category}, function (err, posts) {
+        res.render('blog/index', {
+            "posts": posts
+        })
+    })
+}

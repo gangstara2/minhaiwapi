@@ -91,7 +91,7 @@ textarea {
     width: 400px;
 }
 
-.post img {
+.show img, .post img {
     width: 100%;
 }
 
