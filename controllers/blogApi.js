@@ -8,6 +8,8 @@ const Category = require('../models/BlogCategory');
  */
 
 exports.blogApi = (req, res) => {
+    let limit = ((req.params.limit && !isNaN(req.params.limit)) ? Number(req.params.limit) : 5);
+    let page = ((req.params.page && !isNaN(req.params.page)) ? (limit * (req.params.page - 1)) : 0);
     Blog.getBlogs(function (err, blogs) {
         if (err) {
             res.json({code: 400, message: "error", data: err})
@@ -17,7 +19,7 @@ exports.blogApi = (req, res) => {
                 code: 200, message: "ok", data: blogs
             })
         }
-    });
+    }, limit, page);
 };
 
 exports.addBlog = (req, res) => {
@@ -171,9 +173,11 @@ exports.editBlog = (req, res) => {
     if (author) object.author = author;
     if (req.file) {
         object.image = req.file.filename
+    } else if (image) {
+        object.image = image
     }
     Blog.update({_id: req.params.id}, object, (err, blog) => {
-        if (err) res.json({code: 400, message: "error", data: err})
+        if (err) res.json({code: 400, message: "error", data: err});
         else res.json({code: 200, message: "success", data: object})
     });
 

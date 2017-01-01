@@ -186,6 +186,7 @@ app.get('/api/google-maps', apiController.getGoogleMaps);
  */
 const blogApiController = require('./controllers/blogApi');
 app.get('/api/blog', blogApiController.blogApi);
+app.get('/api/blog/paginate/:page/:limit', blogApiController.blogApi);
 app.post('/api/addBlog', upload.single('image'), blogApiController.addBlog);
 app.get('/api/blog/:id', blogApiController.getBlogById);
 app.post('/api/blog/:id/addComment', upload.single('nothingsdfsdf'), blogApiController.addCommentToBlog);
@@ -203,6 +204,7 @@ const blogController = require('./controllers/blog');
 app.get('/blog', blogController.blog);
 app.get('/blog/add', passportConfig.isAuthenticated, blogController.getAddBlog);
 app.post('/blog/add', passportConfig.isAuthenticated, upload.single('image'), blogController.postAddBlog);
+app.get('/blog/:page', blogController.blog);
 app.get('/blog/show/:id', blogController.showBlog);
 app.post('/blog/addcomment', blogController.addComment);
 app.get('/blog/addcategory', blogController.getAddCategory);

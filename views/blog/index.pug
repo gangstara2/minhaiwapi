@@ -7,7 +7,7 @@ block content
         each post, i in posts
             .post
                 h1
-                    a(href='/blogs/show/' + post._id)
+                    a(href='/blog/show/' + post._id)
                         =post.title
                 p.meta Posted in #{' '}
                     a(href='/blog/categories/show/' + post.category) #{post.category} by #{post.author} on #{moment(post.date).format("DD-MM-YYYY")}
@@ -15,5 +15,7 @@ block content
                 br
                 =truncateText(post.body, 400)
                 a.more(href='/blog/show/' + post._id) Read Mode
+        if (isMore > 5)
+            a(style="text-align: center" class="btn btn-default" href="/blog/" + (page + 1)) Next Page >>
     else
         p.noposts There are no posts to display

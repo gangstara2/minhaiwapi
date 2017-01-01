@@ -5,11 +5,15 @@ const Blog = require('../models/Blog');
 const Category = require('../models/BlogCategory');
 
 exports.blog = (req, res) => {
-    Blog.find({}, function (err, posts) {
+    let paginate = ((req.params.page && !isNaN(req.params.page)) ? (5 * (req.params.page - 1)) : 0);
+    Blog.getBlogs(function (err, posts) {
+        console.log(Object.keys(posts).length);
         res.render('blog/index', {
-            "posts": posts
+            "posts": posts,
+            "page": !isNaN(req.params.page) ? req.params.page : 1,
+            "isMore": Object.keys(posts).length
         })
-    })
+    }, 5, paginate)
 };
 
 exports.getAddBlog = (req, res) => {
@@ -25,7 +29,7 @@ exports.postAddBlog = (req, res) => {
     const title = req.body.title;
     const category = req.body.category;
     const body = req.body.body;
-    const author = req.body.author;
+    const author = req.body.author ? req.body.author : user.profile.name;
     const tags = req.body.tags;
     const date = new Date();
     let mainImageName = '';
