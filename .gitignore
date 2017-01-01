@@ -14,7 +14,7 @@ results
 tmp
 
 #Build
-**/uploads
+**/uploads/*
 !**/uploads/noimage.jpg
 !**/uploads/minhblog.png
 # API keys and secrets

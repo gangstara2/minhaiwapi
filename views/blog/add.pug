@@ -28,7 +28,7 @@ block content
             input.form-control(name='image', type='file')
         .form-group
             label Author
-            input(disabled name='author' value='' + user.profile.name)
+            input(name='author' value='' + user.profile.name)
         input.btn.btn-default(name='submit', type='submit', value='Save')
         script(src='/ckeditor/ckeditor.js')
         script
