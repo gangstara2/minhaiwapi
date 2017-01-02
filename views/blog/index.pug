@@ -14,8 +14,8 @@ block content
                 img.mainimage(src='/uploads/' + post.image)
                 br
                 =truncateText(post.body, 400)
-                a.more(href='/blog/show/' + post._id) Read Mode
-        if (isMore > 5)
+                a.more(href='/blog/show/' + post._id) Read More
+        if (isMore >= 5)
             a(style="text-align: center" class="btn btn-default" href="/blog/" + (page + 1)) Next Page >>
     else
         p.noposts There are no posts to display

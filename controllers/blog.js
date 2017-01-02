@@ -7,7 +7,6 @@ const Category = require('../models/BlogCategory');
 exports.blog = (req, res) => {
     let paginate = ((req.params.page && !isNaN(req.params.page)) ? (5 * (req.params.page - 1)) : 0);
     Blog.getBlogs(function (err, posts) {
-        console.log(Object.keys(posts).length);
         res.render('blog/index', {
             "posts": posts,
             "page": !isNaN(req.params.page) ? req.params.page : 1,
